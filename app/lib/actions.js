@@ -165,3 +165,32 @@ export const authenticate = async (prevState, formData) => {
     throw error;
   }
 };
+
+export const resetPassword = async (prevState, formData) => {
+  const { email } = Object.fromEntries(formData);
+  try {
+    connectToDB();
+
+    let word = "te"
+    const newToken = await bcrypt.hash(word.toString(), 10)
+
+    const user = await User.findOne({ email })
+    if (!user) {
+      console.log("Error finding user");
+      // Handle the case where the user is not found
+      return; // Exit function early
+    }
+    const updatedUser = await User.findByIdAndUpdate(user._id, { forgotPasswordToken: newToken }, { new: true });
+   if(!updatedUser){
+    return "Not updated"
+   }
+   console.log(updatedUser)
+   return updatedUser;
+
+  } catch (error) {
+    console.log(error)
+
+    throw error;
+  }
+};
+
