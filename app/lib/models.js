@@ -35,8 +35,6 @@ const userSchema = new mongoose.Schema(
     address: {
       type: String,
     },
-    forgotPasswordToken: String,
-    forgotPasswordTokenExpiry: String, 
   },
   { timestamps: true }
 );
